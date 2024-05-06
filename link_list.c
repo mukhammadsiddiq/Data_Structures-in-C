@@ -34,9 +34,37 @@ int main(int argc, char **argv)
 
         // Make the new node point to the current head of the list
         n->next = list;
+        // if list is empty
+        if (list == NULL)
+        {
+            // Update the list head to the new node
+            list = n;
+        }
+        // if number belongs beginnings of the list
+        else if (n->number < list->number)
+        {
+            n->next = list;
+            list = n;
+        }
+        // if there is already number
+        else
+        {
+            for (node *ptr = list; ptr != NULL; ptr = ptr->next)
+            {
+                if (ptr->next == NULL)
+                {
+                    ptr->next = n;
+                    break;
+                }
+                if (n->number < ptr->next->number)
+                {
+                    n->next = ptr->next;
+                    ptr->next = n;
+                    break;
+                }
+            }
+        }
 
-        // Update the list head to the new node
-        list = n;
     }
 
     printf("\n\n\n");

@@ -8,7 +8,7 @@ int main(void)
     if (list == NULL)
         return -1; // If memory allocation fails, return -1
 
-    // Assign values to the elements of the array
+    // Assign values to the elements of the array.
     list[0] = 1;
     list[1] = 2;
     list[2] = 3;

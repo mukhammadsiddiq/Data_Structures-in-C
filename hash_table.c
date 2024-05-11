@@ -1,7 +1,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdint.h>
 
 #define MAX_NAME 256
@@ -26,7 +25,6 @@ int main(int argc, char **argv)
 {
     init_hash_table();
     
-
     person max = {.name = "max", .age = 45};
     person min = {.name = "min", .age = 34};
     person ali = {.name = "ali", .age =24};
@@ -44,30 +42,28 @@ int main(int argc, char **argv)
 
     person *tmp = find_person("azam");
     if (tmp == NULL)
-        return 0;
+        printf("Person not found.\n");
     else
-        printf("found\nname =>  %s\nage=>%d\n", tmp->name, tmp->age);
+        printf("Found\nName: %s\nAge: %d\n", tmp->name, tmp->age);
 
     person *tmp2 = delete_person("min");
     if (tmp2 == NULL)
-        return 0;
+        printf("Person not found for deletion.\n");
     else
-        printf("deleted successfully\nname => %s\nage=>%d\n",tmp2->name, tmp2->age);
+        printf("Deleted successfully\nName: %s\nAge: %d\n", tmp2->name, tmp2->age);
     print_table();
+    
     return 0;
 }
 
 unsigned int hash(const char *name)
 {
-    unsigned int length = strlen(name);
     unsigned int hash_value = 0;
-
-    for (int i = 0; i < length; i++)
+    while (*name)
     {
-        hash_value += name[i];
-        hash_value = (hash_value % TABLE_SIZE);
+        hash_value = (hash_value << 5) + *name++;
     }
-    return hash_value;
+    return hash_value % TABLE_SIZE;
 }
 
 void init_hash_table()
@@ -76,8 +72,6 @@ void init_hash_table()
     {
         hashtable[i] = NULL;
     }
-
-    // Table is empty
 }
 
 void print_table()
@@ -90,7 +84,7 @@ void print_table()
         else
             printf("\t %i \t%s\n", i, hashtable[i]->name);
     }
-    printf("table finished\n");
+    printf("Table finished\n");
 }
 
 bool insert_table(person *p)
@@ -106,7 +100,7 @@ bool insert_table(person *p)
             return true;
         }
     }
-    return false;
+    return false; // Table is full
 }
 
 person *find_person(char *name)
@@ -115,12 +109,10 @@ person *find_person(char *name)
     for (int i = 0; i < TABLE_SIZE; i++)
     {
         int tmp = (i + index) % TABLE_SIZE;
-        if ((hashtable[tmp] != NULL) && strcmp(hashtable[tmp]->name, name) == 0)
-        return hashtable[tmp], hashtable[tmp]->name, hashtable[tmp]->age;
-        else
-            return NULL;
+        if (hashtable[tmp] != NULL && strcmp(hashtable[tmp]->name, name) == 0)
+            return hashtable[tmp];
     }
-    
+    return NULL; // Person not found
 }
 
 person *delete_person(char *name)
@@ -128,14 +120,13 @@ person *delete_person(char *name)
     int index = hash(name);
     for (int i = 0; i < TABLE_SIZE; i++)
     {
-        int tmp = (1 + index) % TABLE_SIZE;
-        if ((hashtable[index] != NULL) && strcmp(hashtable[index]->name, name) == 0)
+        int tmp = (i + index) % TABLE_SIZE;
+        if (hashtable[tmp] != NULL && strcmp(hashtable[tmp]->name, name) == 0)
         {
-        person *tmp = hashtable[index];
-        hashtable[index] = NULL;
-        return tmp;
+            person *temp = hashtable[tmp];
+            hashtable[tmp] = NULL;
+            return temp;
         }
     }
-    else
-        return NULL;
+    return NULL; // Person not found for deletion
 }

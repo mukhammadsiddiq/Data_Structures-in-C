@@ -106,7 +106,7 @@ void print_table()
 // insert data to the table 
 bool insert_table(person *p)
 {
-    checks if p is empty or not 
+    //checks if p is empty or not 
     if (p == NULL) return false;
     int index = hash(p->name); // calling hash functions in order to analyze for which row to insert the given data
     for (int i = 0; i < TABLE_SIZE; i++)

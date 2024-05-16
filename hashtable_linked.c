@@ -8,7 +8,7 @@
 // creating new struct
 typedef struct person
 {
-    char *name;
+    char name[MAX_NAME];
     int age;
     struct person *next;
 } person;
@@ -49,10 +49,11 @@ int main(int argc, char **argv)
         printf("Found\nName: %s\nAge: %d\n", tmp->name, tmp->age);
     // calling the function delete_data from table
     person *tmp2 = delete_person("min");
-    if (tmp2 == NULL) // the same checking if it is empty or no
+    person *tmp3 = delete_person("abroreww");
+    if (tmp2 == NULL && tmp3 == NULL) // the same checking if it is empty or no
         printf("Person not found for deletion.\n");
     else
-        printf("Deleted successfully\nName: %s\nAge: %d\n", tmp2->name, tmp2->age);
+        printf("Deleted successfully\nName: %s\nAge: %d\nName: %s\nAge: %d\n", tmp2->name, tmp2->age, tmp3->name, tmp3->age);
     print_table(); // printing the table after operations
     
     return 0;
@@ -83,11 +84,11 @@ void print_table()
     for (int i = 0; i < TABLE_SIZE; i++)
     {
         // checking if  hashtable is empty
-        if(hashtable == NULL)
+        if(hashtable[i] == NULL)
             printf("\t %i \t-------\n", i);
         else
         {
-            printf("\t %i \t");
+            printf("\t %i \t", i);
             person *tmp = hashtable[i];
             while (tmp != NULL)
             {
@@ -108,4 +109,46 @@ bool insert_table(person *p)
     hashtable[index] = p;
     return true;
 }
+
+person *find_person(char *name)
+{
+    int index = hash(name);
+    person *tmp = hashtable[index];
+    while ((tmp != NULL) && strcmp(tmp->name, name) != 0)
+    {
+        tmp = tmp ->next; //updating tmp value to the next value in the linked list
+    }
+    return tmp;
+}
+// function for deleting data from the table
+person *delete_person(char *name)
+{
+    // Step 1: Calculate the hash index for the given name
+    int index = hash(name);
+    // Step 2: Initialize pointers to traverse the linked list
+    person *tmp = hashtable[index]; // Pointer to the current node
+    person *prev = NULL;             // Pointer to the previous node
+    // Step 3: Traverse the linked list to find the person with the given name
+    while ((tmp != NULL) && strcmp(tmp->name, name) != 0)
+    {
+        prev = tmp;         // Update prev to current node
+        tmp = tmp->next;    // Move to the next node
+    }
+    // Step 4: Check if the person with the given name was found
+    if (tmp == NULL) return NULL; // Person not found, return NULL 
+    // Step 5: Delete the person
+    if (prev == NULL)
+    {
+        // If the person to delete is the head of the linked list
+        hashtable[index] = tmp->next; // Update the head to the next node
+    }
+    else
+    {
+        // If the person to delete is not the head
+        prev->next = tmp->next; // Skip over the current node
+    }
+    // Step 6: Return a pointer to the deleted person
+    return tmp;
+}
+
 

@@ -42,7 +42,13 @@ int main(int argc, char **argv) {
 
 // Function to check if the list is valid (dummy function, always returns false)
 bool isValid(node *list) {
-    return false;
+    node *ptr = list; //assigning list to ptr;
+    while (ptr != NULL) {
+        ptr = list->next;
+        free(list);
+        list = ptr;
+    }
+    return true;
 }
 
 // Function to visualize the linked list

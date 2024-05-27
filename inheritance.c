@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
     person *family = create_family(GENERATIONS);
     print_family(family, 0);
-    free_family(family);
+    free_family(family); // free allocated memory   for family
 
     return 0;
 }

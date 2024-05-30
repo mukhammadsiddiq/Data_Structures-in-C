@@ -46,7 +46,7 @@ int main(int argc, char **argv)
             n->next = list;
             list = n;
         }
-        // if there is already number
+        // if there is already number 
         else
         {
             for (node *ptr = list; ptr != NULL; ptr = ptr->next)
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     while (ptr != NULL)
     {
         printf("%d\n", ptr->number);
-        ptr = ptr->next;
+        ptr = ptr->next; //update ptr to next value
     }
 
     return 0; // Return 0 to indicate successful execution

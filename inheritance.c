@@ -68,7 +68,7 @@ void free_family(person *p) {
     if (p == NULL) {
         return;
     }
-    // Recursively free parents
+    // Recursively free both parents
     free_family(p->parents[0]);
     free_family(p->parents[1]);
     // Free the person itself
@@ -76,6 +76,7 @@ void free_family(person *p) {
 }
 
 void print_family(person *p, int generation) {
+    // checking if the p is not NULL
     if (p == NULL) {
         return;
     }

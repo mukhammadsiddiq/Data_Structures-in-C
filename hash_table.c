@@ -36,12 +36,12 @@ int main(int argc, char **argv)
     person azam = {.name = "azam", .age =34};
     person abror = {.name = "abroreww", .age =22};
     // inserting data to the table
-    insert_table(&max);
-    insert_table(&min);
-    insert_table(&ali);
-    insert_table(&ahror);
-    insert_table(&azam);
-    insert_table(&abror);
+    insert_table(&max); // random examples
+    insert_table(&min); // random examples
+    insert_table(&ali); // random examples
+    insert_table(&ahror); // random examples
+    insert_table(&azam); // random examples
+    insert_table(&abror); // random examples
     print_table(); // printing the table after assign
     //calling function in order to find a person
     person *tmp = find_person("azam");
